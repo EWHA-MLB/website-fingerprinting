@@ -221,3 +221,10 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# 데이터 (용량 초과·수업 데이터)
+*.pkl
+*.zip
+*.cell
+data/*
+!data/README.md
