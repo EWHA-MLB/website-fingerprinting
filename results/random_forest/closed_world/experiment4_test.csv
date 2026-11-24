@@ -1,0 +1,2 @@
+task,model,candidate,n_features,n_test,fit_s,predict_s,acc,macro_f1,TP,FN,TN,FP,tpr,tnr,fpr,precision,mon_site_exact,roc_auc,average_precision
+closed_world,RF,trees_500,110,3800,154.7006,0.6627,0.8600,0.8594,,,,,,,,,,,

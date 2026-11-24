@@ -1,0 +1,2 @@
+task,model,candidate,n_features,n_train,n_classes,cv_acc,cv_std,majority_baseline,oof_acc,oof_FN,oof_TN,oof_FP,oof_tpr,oof_tnr,oof_fpr,oof_precision,oof_mon_site_exact,oof_roc_auc,oof_average_precision
+open_binary,RF,depth_none,110,23200,2,0.8941,0.0043,0.6552,0.8941,641.0,6185.0,1815.0,0.9578,0.7731,0.2269,0.8892,,0.9612,0.9777
