@@ -1,0 +1,2 @@
+task,model,candidate,n_features,n_test,fit_s,predict_s,acc,macro_f1,TP,FN,TN,FP,tpr,tnr,fpr,precision,mon_site_exact,roc_auc,average_precision
+open_binary,RF,depth_none,110,5800,26.8193,0.1064,0.9031,0.8888,3659.0,141.0,1579.0,421.0,0.9629,0.7895,0.2105,0.8968,,0.9676,0.982

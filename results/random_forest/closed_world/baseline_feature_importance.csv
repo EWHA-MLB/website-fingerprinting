@@ -1,0 +1,16 @@
+feature,importance
+g4_first100_out_ratio,0.0292
+g4_first30_out_ratio,0.0243
+g6_cumul_01,0.0222
+g1_n_out,0.0212
+g1_in_ratio,0.0199
+g2_chunk20_mean,0.0195
+g2_chunk100_mean,0.0195
+g2_chunk50_mean,0.0189
+g6_cumul_02,0.0184
+g2_out_pos_mean,0.0174
+g3_bursts_len1_5,0.0172
+g3_n_out_bursts,0.0164
+g6_cumul_03,0.0160
+g3_max_out_burst,0.0155
+g2_out_pos_std,0.0147
