@@ -1,0 +1,6 @@
+candidate,cv_acc,cv_std,delta_cv_vs_baseline,cv_macro_f1,train_cv_gap,cv_fit_s,selected,n_estimators,max_depth,max_features,min_samples_leaf
+baseline,0.8476,0.0068,0.0000,0.8464,0.1524,122.6226,False,100,20.0,sqrt,1
+depth_none,0.8518,0.0051,0.0042,0.8505,0.1482,116.8537,False,100,None,sqrt,1
+trees_500,0.8547,0.0069,0.0071,0.8536,0.1453,563.8472,True,500,20.0,sqrt,1
+features_half,0.8411,0.0068,-0.0065,0.8396,0.1576,623.3975,False,100,20.0,0.5,1
+leaf_3,0.8322,0.0079,-0.0155,0.8304,0.1592,102.6730,False,100,20.0,sqrt,3

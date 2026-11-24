@@ -1,0 +1,2 @@
+task,model,candidate,n_features,n_train,n_classes,cv_acc,cv_std,majority_baseline,oof_acc,oof_FN,oof_TN,oof_FP,oof_tpr,oof_tnr,oof_fpr,oof_precision,oof_mon_site_exact,oof_roc_auc,oof_average_precision
+closed_world,RF,trees_500,110,15200,95,0.8547,0.0069,0.0105,0.8547,,,,,,,,,,

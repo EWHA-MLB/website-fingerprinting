@@ -1,0 +1,2 @@
+variant,task,cumul_points,n_features,cv_acc,cv_std,test_acc,search_time_s,n_estimators,max_depth,max_features,min_samples_leaf
+selected,open_multi,50,110,0.8019,0.0060,0.8166,1702.5401,100,20,sqrt,1

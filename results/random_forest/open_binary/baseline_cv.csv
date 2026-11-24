@@ -1,0 +1,6 @@
+task,candidate,n_estimators,max_depth,max_features,min_samples_leaf,cv_acc
+open_binary,1,100,10,sqrt,1,0.8324
+open_binary,2,500,10,sqrt,1,0.8321
+open_binary,3,100,20,sqrt,1,0.8889
+open_binary,4,100,10,0.5,1,0.8546
+open_binary,5,100,10,sqrt,3,0.8316

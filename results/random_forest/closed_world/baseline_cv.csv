@@ -1,0 +1,6 @@
+task,candidate,n_estimators,max_depth,max_features,min_samples_leaf,cv_acc
+closed_world,1,100,10,sqrt,1,0.6691
+closed_world,2,500,10,sqrt,1,0.6760
+closed_world,3,100,20,sqrt,1,0.8476
+closed_world,4,100,10,0.5,1,0.6014
+closed_world,5,100,10,sqrt,3,0.6669
