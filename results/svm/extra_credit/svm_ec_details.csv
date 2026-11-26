@@ -1,0 +1,10 @@
+model,task,condition,version,features,log2C,log2gamma,n_support,n_train_visits,train_frac,predict_sec
+SVM,closed,B_full100,include,110,7,-6,75684,15200,,971.2
+SVM,closed,A,include,110,7,-6,12245,15200,,179.9
+SVM,closed,A,exclude,110,7,-6,12245,15200,,160.8
+SVM,closed,B,include,110,7,-6,22763,4560,0.3,202.5
+SVM,closed,B,exclude,110,7,-6,20874,4560,0.3,169.7
+SVM,closed,C,include,110,7,-6,26960,4560,0.3,241.6
+SVM,closed,C,exclude,110,7,-6,25036,4560,0.3,173.6
+SVM,closed,A,include,g1g6_53,14,-2,10359,15200,,82.1
+SVM,closed,A,exclude,g1g6_53,14,-2,10359,15200,,118.0
