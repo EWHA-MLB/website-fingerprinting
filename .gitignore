@@ -1,0 +1,5 @@
+# extra credit 원본 특징 (용량 큼, Drive에서 받기)
+data/extra/
+
+# extra credit 확률 파일 (파일당 15~17MB, Drive로 공유)
+results/svm/extra_credit/ec_test_proba_*.csv
