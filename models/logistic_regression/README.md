@@ -4,13 +4,21 @@
 
 ## 노트북
 
-| 파일 | 내용 |
-| --- | --- |
-| `01_lr_main.ipynb` | 필수 실험 ①②③, 초반 제거 비교, 초반 패킷 방향 분석, 계수 해석, 오류 분석, 그룹 제거, 추가 실험 1(그룹 단독)·2(누적 흐름 해상도), 공통 fold·OOF/test 확률 저장, 실험 5(이진 임계값 분석) |
+| 파일 | 내용 | 실행 시간 (Colab CPU) |
+| --- | --- | --- |
+| `01_lr_main.ipynb` | 필수 실험 ①②③, 초반 제거 비교, 초반 패킷 방향 분석, 계수 해석, 오류 분석, 그룹 제거, 추가 실험 1(그룹 단독)·2(누적 흐름 해상도), 공통 fold·OOF/test 확률 저장, 실험 5(이진 임계값 분석) | 수 시간 (C 탐색 × 3과제, 그룹 제거) |
+| `02_lr_extra_credit.ipynb` | Extra credit: 일반·split·혼합 학습(A·B·C) × 빈 split 포함·제외, 방문 단위 평가 | 약 1시간 |
 
-실험 6(soft voting 앙상블)은 세 모델 확률 파일이 모두 필요해서 별도 노트북 `MLB_Experiment6_Ensemble.ipynb`로 분리했다.
+실험 6(soft voting 앙상블)은 세 모델의 확률 파일이 필요해서 `ensemble/MLB_Experiment6_Ensemble.ipynb`로 분리했다. `01_lr_main.ipynb`가 만든 `lr_oof_*.csv`, `lr_test_proba_*.csv`를 읽는다.
 
-두 노트북 모두 Google Colab에서 Google Drive를 연결해 실행한다. 경로는 노트북 0번 설정 셀에서 바꾼다.
+### 실행
+
+1. 저장소 루트에서 `pip install -r requirements.txt`
+2. `01_lr_main.ipynb`를 위에서부터 실행한다. 경로는 첫 설정 셀이 저장소 기준으로 잡는다.
+   - 특징·분할 파일은 저장소에 있다.
+   - 7-추가(초반 패킷 방향 비교)만 원본 pkl이 필요하다. `data/`에 없으면 그 셀은 건너뛴다.
+3. `02_lr_extra_credit.ipynb`는 `data/extra/features_extra_split_trim0.csv.gz`가 필요하다(루트 README의 데이터 준비 참고).
+4. 결과가 이미 있으면 건너뛰는 셀이 있다(`SKIP_IF_EXISTS`). 처음부터 다시 계산하려면 `results/logistic_regression/`의 해당 파일을 지운다.
 
 ## 공통 설정
 
@@ -42,6 +50,21 @@
 
 ROC-AUC: OOF 0.8194, test 0.8118
 
+## Extra credit (TrafficSliver 분할 트래픽)
+
+Closed-world, C=100 고정, 평가 3,800방문. 방문 정확도는 한 방문의 split 확률을 평균 내 판정한 값이다.
+
+| 조건 | 학습 데이터 | 빈 split 포함 | 빈 split 제외 |
+| --- | --- | --- | --- |
+| A | 일반 train | 0.0121 | 0.0139 |
+| B | split train | 0.1655 | **0.1668** |
+| C | 일반 + split train | 0.1397 | 0.1397 |
+
+- 일반 기록으로만 학습한 A는 무작위 수준(약 0.0105)이다.
+- C가 B보다 약 0.026 낮다. 일반 기록과 split은 패킷 수 규모가 크게 달라, 사이트마다 선형 경계 하나로 두 분포를 함께 맞추기 어려운 것으로 본다.
+- 빈 split 포함·제외의 차이는 0.002 이내다.
+- 분할은 `splits/extra_split_seed42.csv`를 쓴다. extra credit 방문이 메인 기록과 같은 방문이어서, 메인 `split_seed42.csv`의 train/test를 그대로 따른다.
+
 ## 결과 파일 (`results/logistic_regression/`)
 
 | 파일 | 내용 |
@@ -55,6 +78,7 @@ ROC-AUC: OOF 0.8194, test 0.8118
 | `lr_closed_site_acc.csv` / `lr_closed_confused_pairs.csv` | Closed-world 오류 분석 |
 | `lr_group_coef.csv` | 그룹별 평균 계수 크기 (참고용) |
 | `lr_threshold_binary.csv` | 실험 5. 목표 오탐률별 임계값과 탐지율 |
+| `extra_credit/ec_summary.csv` | Extra credit 조건별 학습·평가 규모, 방문·행 단위 지표 |
 
 ## 해석할 때 주의
 

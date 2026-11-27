@@ -4,6 +4,14 @@ TrafficSliver(BWR)로 트래픽을 5개로 분할한 데이터에서 일반·분
 
 - 같은 기록의 `split_0~4.cell`은 반드시 같은 쪽(학습/평가)에 배치한다.
 
+## 공통 분할 (`make_extra_split.ipynb`)
+
+`splits/extra_split_seed42.csv`를 만든다. extra credit 방문은 메인 pkl 기록과 같은 방문이다(mon 19,000개 모두 대응하는 메인 기록과 패킷 수가 일치). 그래서 메인 `split_seed42.csv`의 train/test를 그대로 따르고, 메인에 없는 unmon만 따로 80:20으로 나눈다. 저장소에 분할 파일이 있으면 새로 만든 결과와 같은지만 확인한다.
+
+## LR (`models/logistic_regression/02_lr_extra_credit.ipynb`)
+
+결과: `results/logistic_regression/extra_credit/ec_summary.csv` · 설명: `models/logistic_regression/README.md`
+
 ## SVM (`MLB_SVM_extra.ipynb`)
 
 결과 보고서: `docs/reports/MLB_SVM_ExtraCredit.md` · 결과: `results/svm/extra_credit/`
