@@ -7,9 +7,6 @@ __pycache__/
 data/*.pkl
 data/*.zip
 
-# extra credit 원본 특징 (용량 큼, Drive에서 받기)
-data/extra/
-
 # 노트북이 만드는 큰 예측·확률 파일 (요약 CSV만 올린다)
 results/logistic_regression/lr_oof_*.csv
 results/logistic_regression/lr_test_proba_*.csv
