@@ -8,4 +8,16 @@
 | `unmon_standard10.pkl` | unmonitored | 10,000 |
 | `unmon_standard10_3000.pkl` | unmonitored 축소판 (10,000의 일부) | 3,000 |
 
-Colab에서 실행할 때는 위 파일을 `MyDrive/MLB-Project/data/`에 둔다.
+위 pkl 파일을 이 폴더(`data/`)에 둔다. extra credit 특징(`data/extra/`)은 데이터팀이 추출한 결과로, 저장소에 포함되어 있다.
+
+```
+data/
+├── mon_standard.pkl
+├── unmon_standard10.pkl
+├── extra/                                  (저장소에 포함)
+│   ├── features_extra_split_trim0.csv.gz   split 190,000행, 약 79MB
+│   └── features_extra_join_trim0.csv.gz    join 38,000행, 약 22MB
+└── extra_raw/                              (extra credit 특징을 다시 추출할 때만)
+    ├── mon.zip
+    └── unmon.zip
+```

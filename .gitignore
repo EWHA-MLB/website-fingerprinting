@@ -1,5 +1,19 @@
-# extra credit 원본 특징 (용량 큼, Drive에서 받기)
-data/extra/
+# OS / 편집기
+.DS_Store
+.ipynb_checkpoints/
+__pycache__/
 
-# extra credit 확률 파일 (파일당 15~17MB, Drive로 공유)
-results/svm/extra_credit/ec_test_proba_*.csv
+# 원본 데이터 (용량 큼, 수업 제공 데이터)
+data/*.pkl
+data/*.zip
+data/extra_raw/
+
+# extra credit 특징 재추출 결과 (저장소의 data/extra/ 파일과 비교용)
+data/extra/rerun_*/
+
+# 노트북이 만드는 큰 예측·확률 파일 (요약 CSV만 올린다)
+results/logistic_regression/lr_oof_*.csv
+results/logistic_regression/lr_test_proba_*.csv
+results/logistic_regression/lr_pred_*.csv
+results/logistic_regression/lr_summary_partial.csv
+results/*/extra_credit/ec_test_proba_*.csv
