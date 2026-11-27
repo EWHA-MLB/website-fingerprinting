@@ -4,6 +4,18 @@ TrafficSliver(BWR)로 트래픽을 5개로 분할한 데이터에서 일반·분
 
 - 같은 기록의 `split_0~4.cell`은 반드시 같은 쪽(학습/평가)에 배치한다.
 
+노트북 위치
+
+| 내용 | 노트북 |
+| --- | --- |
+| 공통 분할 | `extra_credit/make_extra_split.ipynb` |
+| LR | `models/logistic_regression/02_lr_extra_credit.ipynb` |
+| SVM | `models/svm/MLB_SVM_extra.ipynb` |
+| RF | `models/random_forest/` (업로드 예정) |
+| 특징 추출 | `features/extra_credit/` |
+
+모델 노트북은 모델 폴더에 두고, 이 폴더에는 공통 분할 노트북과 실행 스크립트(`run_notebook.py`)만 둔다.
+
 ## 공통 분할 (`make_extra_split.ipynb`)
 
 `splits/extra_split_seed42.csv`를 만든다. extra credit 방문은 메인 pkl 기록과 같은 방문이다(mon 19,000개 모두 대응하는 메인 기록과 패킷 수가 일치). 그래서 메인 `split_seed42.csv`의 train/test를 그대로 따르고, 메인에 없는 unmon만 따로 80:20으로 나눈다. 저장소에 분할 파일이 있으면 새로 만든 결과와 같은지만 확인한다.
@@ -12,7 +24,7 @@ TrafficSliver(BWR)로 트래픽을 5개로 분할한 데이터에서 일반·분
 
 결과: `results/logistic_regression/extra_credit/ec_summary.csv` · 설명: `models/logistic_regression/README.md`
 
-## SVM (`MLB_SVM_extra.ipynb`)
+## SVM (`models/svm/MLB_SVM_extra.ipynb`)
 
 결과 보고서: `docs/reports/MLB_SVM_ExtraCredit.md` · 결과: `results/svm/extra_credit/`
 
@@ -30,7 +42,7 @@ TrafficSliver(BWR)로 트래픽을 5개로 분할한 데이터에서 일반·분
 pip install numpy pandas scikit-learn nbformat nbclient ipykernel
 # 셀마다 출력을 노트북에 저장하며 실행. 끝난 조건(ec_summary.csv에 행이 있는 것)은 건너뛴다
 EC_N_JOBS=5 EC_CLOSED_FRAC=0.3 EC_RUN_BINARY=0 \
-  python extra_credit/run_notebook.py extra_credit/MLB_SVM_extra.ipynb extra_credit/MLB_SVM_extra.ipynb extra_credit
+  python extra_credit/run_notebook.py models/svm/MLB_SVM_extra.ipynb models/svm/MLB_SVM_extra.ipynb models/svm
 ```
 
 | 환경 변수 | 기본값 | 의미 |

@@ -1,6 +1,6 @@
 # SVM · Extra Credit (TrafficSliver 분할 트래픽) 결과
 
-담당: 김가영 (SVM) · 노트북 `extra_credit/MLB_SVM_extra.ipynb` · 결과 `results/svm/extra_credit/`
+담당: 김가영 (SVM) · 노트북 `models/svm/MLB_SVM_extra.ipynb` · 결과 `results/svm/extra_credit/`
 
 ## 요약
 
@@ -131,4 +131,4 @@ join은 분할 경로를 다시 합친 관찰이다(방문당 1행). 기본 조�
 | `results/svm/extra_credit/ec_test_proba_closed_{A,B,C}_{include,exclude}[_g1g6_53].csv` | test 행별 확률 (`record_id`, `source_group_id`, `variant`, `y`, `p_0`~`p_94`). 파일당 15~17MB라 저장소에는 올리지 않음 |
 | `results/svm/extra_credit/ec_test_proba_binary_{A,B,C}_{include,exclude}.csv` | 이진 test 행별 확률 (`p_-1`, `p_1`). 파일당 약 2MB, 저장소에는 올리지 않음 |
 | `results/svm/extra_credit/logs/` | 서버 실행 스크립트·로그, Closed 53개 학습 출력이 남은 노트북 사본 |
-| `extra_credit/MLB_SVM_extra.ipynb` | 실험 노트북 (실행 출력 포함) |
+| `models/svm/MLB_SVM_extra.ipynb` | 실험 노트북 (실행 출력 포함) |

@@ -30,7 +30,7 @@ features/      특징 추출 노트북 (데이터팀)
 splits/        모델팀 공유 학습/평가 분할, 공통 교차검증 fold
 models/        모델별 실험 노트북
 ensemble/      실험 6. soft voting 앙상블
-extra_credit/  TrafficSliver 분할 트래픽 실험
+extra_credit/  TrafficSliver 분할 트래픽 실험: 공통 분할 노트북, 노트북 위치 안내
 results/       모델별 요약 결과 CSV
 ```
 
