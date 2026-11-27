@@ -132,7 +132,7 @@ pip install -r requirements.txt
 
 ## Team
 
-| <img src="https://github.com/mirikim404.png" width="90"> | <img src="https://github.com/jasmin0202.png" width="90"> | <img src="https://github.com/arky02.png" width="90"> | <img src="https://github.com/Yangyoonseo27.png" width="90"> | <img src="https://github.com/kimyujin8575.png" width="90"> | 김은규 |
+| <img src="https://github.com/mirikim404.png" width="90"> | <img src="https://github.com/jasmin0202.png" width="90"> | <img src="https://github.com/arky02.png" width="90"> | <img src="https://github.com/Yangyoonseo27.png" width="90"> | <img src="https://github.com/kimyujin8575.png" width="90"> | <img src="https://github.com/angmang24.png" width="90"> |
 | :---: | :---: | :---: | :---: | :---: | :---: |
-| [김미리](https://github.com/mirikim404) | [김가영](https://github.com/jasmin0202) | [김기연](https://github.com/arky02) | [양윤서](https://github.com/Yangyoonseo27) | [김유진](https://github.com/kimyujin8575) | 김은규 |
+| [김미리](https://github.com/mirikim404) | [김가영](https://github.com/jasmin0202) | [김기연](https://github.com/arky02) | [양윤서](https://github.com/Yangyoonseo27) | [김유진](https://github.com/kimyujin8575) | [김은규](https://github.com/angmang24) |
 | Model · LR, 앙상블 | Model · SVM | Model · RF | Data · 특징 | Data · 특징 | Data · 특징 |
