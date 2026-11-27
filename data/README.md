@@ -14,7 +14,10 @@
 data/
 ├── mon_standard.pkl
 ├── unmon_standard10.pkl
-└── extra/
-    ├── features_extra_split_trim0.csv.gz
-    └── features_extra_join_trim0.csv.gz   (선택)
+├── extra/                                  (저장소에 포함)
+│   ├── features_extra_split_trim0.csv.gz   split 190,000행, 약 79MB
+│   └── features_extra_join_trim0.csv.gz    join 38,000행, 약 22MB
+└── extra_raw/                              (extra credit 특징을 다시 추출할 때만)
+    ├── mon.zip
+    └── unmon.zip
 ```

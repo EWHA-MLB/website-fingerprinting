@@ -56,10 +56,11 @@ pip install -r requirements.txt
 | 메인 특징 `features_*_trim{0,10,20}.csv`, `cumul100_mon_trim0.csv` | `features/기본 실험/` | O | 모든 모델 |
 | 분할 `split_seed42.csv`, `cv_folds_seed42.csv`, `extra_split_seed42.csv` | `splits/` | O | 모든 모델 |
 | extra credit 특징 `features_extra_split_trim0.csv.gz` (`features_extra_join_trim0.csv.gz`는 선택) | `data/extra/` | O | `extra_credit/`, 모델별 extra credit 노트북 |
+| 수업 제공 extra credit ZIP `mon.zip`, `unmon.zip` | `data/extra_raw/` | X | extra credit 특징 추출 (`features/extra_credit/`) |
 
 ### 실행 순서
 
-1. `features/기본 실험/feature_extraction.ipynb` — 원본 pkl에서 특징 CSV 생성. 결과 CSV가 저장소에 있으므로 건너뛰어도 된다.
+1. `features/기본 실험/feature_extraction.ipynb` — 원본 pkl에서 특징 CSV 생성. `features/extra_credit/extra_credit_feature_extraction_colab.ipynb` — extra credit ZIP에서 특징 생성. 결과 파일이 저장소에 있으므로 둘 다 건너뛰어도 된다.
 2. `models/` — 모델별 필수 실험 → 추가 실험 (모델 폴더의 README 참고)
 3. `ensemble/` — 실험 6. LR·SVM·RF 노트북이 만든 OOF·test 확률 파일이 먼저 있어야 한다.
 4. `extra_credit/`, 모델별 extra credit 노트북 — `data/extra/`의 특징과 `splits/extra_split_seed42.csv`를 사용한다.
