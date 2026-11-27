@@ -1,46 +1,82 @@
-# Website Fingerprinting — Team MLB
+# Website Fingerprinting on Tor
 
-이화여자대학교 기계학습 2026-2 팀 프로젝트. Tor 트래픽 기록에서 추출한 특징 110개로 접속한 웹사이트를 식별하고, Logistic Regression·SVM·Random Forest를 비교한다.
+![Python](https://img.shields.io/badge/Python-3.10+-3776AB?logo=python&logoColor=white)
+![scikit-learn](https://img.shields.io/badge/scikit--learn-1.6+-F7931E?logo=scikitlearn&logoColor=white)
+![Colab](https://img.shields.io/badge/Google%20Colab-CPU-F9AB00?logo=googlecolab&logoColor=white)
 
-## 팀원과 역할
+Tor 트래픽의 패킷 방향·시간 정보만으로 사용자가 접속한 웹사이트를 식별합니다. 트래픽 기록에서 특징 110개를 직접 설계·추출하고, **Logistic Regression · SVM · Random Forest**를 같은 조건에서 비교했습니다.
 
-| 이름 | 역할 |
-| --- | --- |
-| 김은규 | 데이터팀 — 특징 설계·추출 |
-| 양윤서 | 데이터팀 — 특징 설계·추출 |
-| 김유진 | 데이터팀 — 특징 설계·추출 |
-| 김미리 | 모델팀 — Logistic Regression, 실험 5·6 |
-| 김가영 | 모델팀 — SVM |
-| 김기연 | 모델팀 — Random Forest |
+이화여자대학교 기계학습(2026-2) 팀 프로젝트 · Team MLB
 
-## 과제
+<br>
 
-| 과제 | 설명 |
-| --- | --- |
-| Closed-world | monitored 95개 사이트 중 어디인지 식별 (95 클래스) |
-| Open-world 이진 | 관심 사이트(monitored)인지 여부 (mon 1 / unmon -1) |
-| Open-world 다중 | 95개 사이트 + 관심 밖(-1) = 96 클래스 |
+## Highlights
 
-## 폴더 구조
+- **Closed-world 95개 사이트 식별 정확도 86.0%** (Random Forest), SVM + RF 앙상블로 **88.8%**
+- 데이터의 **수집 흔적**을 발견: 7번째 패킷 방향 하나로 monitored/unmonitored가 99.99% 구분됨 → Open-world 결과 해석에 반영
+- **TrafficSliver 분할 방어** 평가(Extra credit): 일반 트래픽으로 학습한 모델은 무작위 수준(약 1%)으로 떨어지고, 분할 트래픽으로 학습해도 최고 28.0%
 
-```
-docs/          제안서, 특징 정의서, 실험 보고서
-data/          원본 데이터 위치 (파일은 올리지 않음)
-features/      특징 추출 노트북 (데이터팀)
-splits/        모델팀 공유 학습/평가 분할, 공통 교차검증 fold
-models/        모델별 실험 노트북
-ensemble/      실험 6. soft voting 앙상블
-extra_credit/  TrafficSliver 분할 트래픽 실험: 공통 분할 노트북, 노트북 위치 안내
-results/       모델별 요약 결과 CSV
-```
+<br>
 
-## 실행 방법
+## Results
 
-### 환경
+최종 평가 데이터 정확도. 공통 특징 110개, 하이퍼파라미터는 학습 데이터의 5-fold 교차검증으로만 선택했습니다.
 
-- Python 3.10 이상, `pip install -r requirements.txt`
-- Google Colab CPU 런타임 또는 로컬 Jupyter에서 실행한다. GPU는 필요 없다.
-- 노트북의 첫 설정 셀은 저장소 루트(`splits/` 폴더가 있는 위치)를 찾아 모든 경로를 그 기준으로 잡는다. Colab에서 GitHub의 노트북만 열었다면 저장소를 `/content/website-fingerprinting`에 내려받은 뒤 같은 방식으로 실행한다.
+| Model | Closed-world<br><sub>95 classes</sub> | Open-world 이진<br><sub>mon / unmon</sub> | Open-world 다중<br><sub>96 classes</sub> |
+| :--- | :---: | :---: | :---: |
+| 기준선 | 0.0105 | 0.6552 | 0.3448 |
+| Logistic Regression | 0.6884 | 0.7745 | 0.6343 |
+| SVM (RBF) | 0.8521 | 0.8984 | **0.8384** |
+| Random Forest | **0.8600** | **0.9031** | 0.8312 |
+| **SVM + RF 앙상블** | **0.8876** | **0.9145** | **0.8564** |
+
+<sub>기준선: Closed는 균등 무작위, 이진은 전부 mon, 다중은 전부 unmon으로 답한 정확도. 앙상블은 확률을 1:1로 평균한 soft voting. SVM은 특징 53개(g1+g6)만 쓸 때 Closed-world 0.8650.</sub>
+
+<details>
+<summary><b>Extra credit — TrafficSliver 분할 트래픽 (Closed-world 방문 정확도)</b></summary>
+<br>
+
+한 방문을 5개 경로로 나눈 트래픽에서, 학습 데이터만 바꿔 같은 split test 3,800방문을 평가했습니다.
+
+| 학습 데이터 | LR | SVM | RF |
+| :--- | :---: | :---: | :---: |
+| A. 일반 트래픽 | 0.0139 | 0.0118 | 0.0216 |
+| B. 분할 트래픽 | **0.1668** | 0.1445 | 0.2703 |
+| C. 일반 + 분할 | 0.1397 | **0.1542** | **0.2800** |
+
+- 빈 split 제외 버전 기준. 포함·제외 차이는 세 모델 모두 1%p 이내
+- SVM B·C는 학습 시간 때문에 train 방문의 30%만 사용 (전체 학습 시 B 0.1958)
+- 자세한 내용: [`extra_credit/`](extra_credit/)
+
+</details>
+
+<details>
+<summary><b>데이터의 수집 흔적</b></summary>
+<br>
+
+monitored 기록의 99.98%가 처음 14개 패킷(인덱스 0~13)의 방향 패턴을 공유하고, unmonitored에서는 이 패턴이 거의 나타나지 않습니다. unmonitored 데이터를 축소하는 과정에서 생긴 것으로 확인했습니다.
+
+- 특정 번째 패킷의 방향을 직접 쓰는 특징·규칙은 사용하지 않습니다.
+- Closed-world는 영향이 없고, Open-world 결과는 이 영향을 고려해 모델 간 상대 비교로만 해석합니다.
+- 앞 10개 패킷을 제거한 조건(trim10)의 이진 정확도 상승(0.7745 → 0.8817)은 성능 향상이 아니라 이 흔적이 특징에 더 직접 드러난 결과입니다.
+
+</details>
+
+<br>
+
+## Tasks
+
+| Task | 설명 | 클래스 |
+| :--- | :--- | :---: |
+| Closed-world | monitored 95개 사이트 중 어디에 접속했는지 | 95 |
+| Open-world 이진 | 관심 사이트(monitored)인지 아닌지 | 2 |
+| Open-world 다중 | 95개 사이트 + 관심 밖(unmonitored) | 96 |
+
+**Features (110개)** — g1 총량 3 · g2 송신 위치·구간 17 · g3 버스트 6 · g4 초반·후반 방향 3 · g5 시간 31 · g6 누적 흐름 50. 정의: [`features/공통 규칙 문서 정의.md`](features/공통%20규칙%20문서%20정의.md)
+
+<br>
+
+## Getting Started
 
 ```bash
 git clone https://github.com/EWHA-MLB/website-fingerprinting.git
@@ -48,76 +84,55 @@ cd website-fingerprinting
 pip install -r requirements.txt
 ```
 
-### 데이터 준비
+노트북은 Google Colab CPU 런타임 또는 로컬 Jupyter에서 실행합니다. 첫 설정 셀이 저장소 루트를 찾아 모든 경로를 잡으므로 경로를 바꿀 필요가 없고, Colab에서 노트북만 열면 저장소를 자동으로 내려받습니다.
 
-| 파일 | 위치 | 저장소 포함 | 사용하는 노트북 |
-| --- | --- | --- | --- |
-| 원본 `mon_standard.pkl`, `unmon_standard10.pkl` | `data/` | X (`data/README.md`) | 특징 추출, LR 7-추가 |
-| 메인 특징 `features_*_trim{0,10,20}.csv`, `cumul100_mon_trim0.csv` | `features/기본 실험/` | O | 모든 모델 |
-| 분할 `split_seed42.csv`, `cv_folds_seed42.csv`, `extra_split_seed42.csv` | `splits/` | O | 모든 모델 |
-| extra credit 특징 `features_extra_split_trim0.csv.gz` (`features_extra_join_trim0.csv.gz`는 선택) | `data/extra/` | O | `extra_credit/`, 모델별 extra credit 노트북 |
-| 수업 제공 extra credit ZIP `mon.zip`, `unmon.zip` | `data/extra_raw/` | X | extra credit 특징 추출 (`features/extra_credit/`) |
+**데이터** — 특징 CSV와 분할 파일은 저장소에 포함되어 있어 바로 실행할 수 있습니다. 수업 제공 원본(`*.pkl`, `*.zip`)은 특징을 다시 추출할 때만 필요합니다([`data/README.md`](data/README.md)).
 
 ### 실행 순서
 
-1. `features/기본 실험/feature_extraction.ipynb` — 원본 pkl에서 특징 CSV 생성. `features/extra_credit/extra_credit_feature_extraction_colab.ipynb` — extra credit ZIP에서 특징 생성. 결과 파일이 저장소에 있으므로 둘 다 건너뛰어도 된다.
-2. `models/` — 모델별 필수 실험 → 추가 실험 (모델 폴더의 README 참고)
-3. `ensemble/` — 실험 6. LR·SVM·RF 노트북이 만든 OOF·test 확률 파일이 먼저 있어야 한다.
-4. `extra_credit/`, 모델별 extra credit 노트북 — `data/extra/`의 특징과 `splits/extra_split_seed42.csv`를 사용한다.
+| 단계 | 노트북 | 비고 |
+| :---: | :--- | :--- |
+| 1 | `features/기본 실험/feature_extraction.ipynb` | 원본 pkl → 특징 CSV (생략 가능) |
+| 2 | `models/logistic_regression/01_lr_main.ipynb` | LR 필수 실험, 추가 실험, 실험 5 |
+| | `models/svm/MLB_SVM_results.ipynb` 외 | SVM 필수·추가 실험 |
+| | `models/random_forest/MLB_RF.ipynb` 외 | RF 필수·추가 실험 |
+| 3 | `ensemble/MLB_SVM_probability.ipynb` → `MLB_Experiment6_Ensemble.ipynb` | 실험 6. 2단계의 확률 파일 필요 |
+| 4 | `extra_credit/make_extra_split.ipynb` → 모델별 extra credit 노트북 | Extra credit |
 
-결과 요약 CSV는 `results/{모델}/`에 저장된다. 큰 예측·확률 파일은 저장소에 올리지 않는다(`.gitignore`).
+모델별 노트북 목록과 실행 시간은 각 폴더의 README에 있습니다.
 
-## 공통 실험 조건
+<br>
 
-- 특징: 데이터팀 정의 110개 (g1~g6), 원본(trim0) 기준
-- 분할: `splits/split_seed42.csv` — mon은 하위 페이지별 비율 유지, unmon은 무작위, 학습 80 : 평가 20
-- 교차검증: `StratifiedKFold(n_splits=5, shuffle=True, random_state=42)`, 학습 데이터 안에서만 수행
-- 최종 평가 데이터는 특징·하이퍼파라미터·임계값 선택에 사용하지 않음
+## Repository Structure
 
-## 주의: 데이터의 수집 흔적
+```
+├── data/                원본 데이터 위치, extra credit 특징 (data/extra/)
+├── features/            특징 추출 노트북, 특징 CSV, 특징 정의서
+├── splits/              공통 학습/평가 분할, 교차검증 fold
+├── models/
+│   ├── logistic_regression/
+│   ├── svm/
+│   └── random_forest/
+├── ensemble/            실험 6. soft voting 앙상블
+├── extra_credit/        TrafficSliver 분할 트래픽 실험 (공통 분할, 노트북 위치)
+├── results/             모델별 결과 요약 CSV
+└── docs/reports/        모델별 실험 보고서
+```
 
-제공된 데이터에서 monitored 기록의 99.98%가 처음 14개 패킷(인덱스 0~13)의 방향 패턴을 공유하며, unmonitored에서는 같은 패턴이 거의 나타나지 않는다. unmonitored 데이터를 축소하는 과정에서 생긴 패턴으로 확인되었다. 이에 따라
+<br>
 
-- 특정 번째 패킷의 방향을 직접 쓰는 특징이나 규칙은 사용하지 않는다.
-- Closed-world는 영향이 없고, Open-world 결과는 이 영향을 고려해 해석한다.
-- 이진 분류보다 다중 분류 결과를 중심으로 보고한다.
+## Experimental Setup
 
-## 주요 결과
+- **분할**: 학습 80 : 평가 20 (`splits/split_seed42.csv`). monitored는 하위 페이지별 비율을 유지하고, unmonitored는 무작위로 나눔. 세 모델이 같은 파일을 사용
+- **튜닝**: `StratifiedKFold(n_splits=5, shuffle=True, random_state=42)`로 학습 데이터 안에서만 수행
+- **평가**: 최종 평가 데이터는 특징·하이퍼파라미터·임계값 선택에 사용하지 않음
+- **환경**: Google Colab CPU 런타임 (CPU 2코어, RAM 12.7GB)
 
-### 모델 비교 (공통 특징 110개, trim0, 최종 평가 데이터)
+<br>
 
-| 과제 | 기준선 | LR | SVM | RF |
-| --- | --- | --- | --- | --- |
-| Closed-world (95 클래스) | 0.0105 | 0.6884 | 0.8521 | **0.8600** |
-| Open-world 이진 | 0.6552 | 0.7745 | 0.8984 | **0.9031** |
-| Open-world 다중 (96 클래스) | 0.3448 | 0.6343 | **0.8384** | 0.8312 |
+## Team
 
-- 기준선: Closed는 균등 무작위, 이진은 전부 mon, 다중은 전부 unmon으로 답했을 때의 정확도
-- 하이퍼파라미터는 학습 데이터의 5-fold 교차검증으로만 골랐다. SVM은 특징 g1+g6(53개)만 쓸 때 Closed-world 0.8650으로 가장 높았다.
-- 비선형 모델(SVM·RF)이 LR보다 Closed-world에서 16~17%p 높다.
-- Open-world 수치는 수집 흔적의 영향을 받으므로 모델 간 상대 비교로만 해석한다.
-- 자세한 결과: `docs/reports/`, 모델별 `models/*/README.md`
-
-### 실험 6. Soft voting 앙상블 (최종 평가 정확도)
-
-| 구성 | Closed | 다중 | 이진 |
-| --- | --- | --- | --- |
-| 단독 최고 | 0.8600 (RF) | 0.8328 (SVM) | 0.9031 (RF) |
-| **SVM + RF** | **0.8876** | **0.8564** | **0.9145** |
-| LR + SVM + RF | 0.8513 | 0.8221 | 0.9012 |
-
-단독 값은 앙상블과 같은 확률 파일로 다시 계산한 값이라 위 표와 조금 다르다(SVM 다중 0.8384 → 0.8328). SVM + RF가 세 과제 모두 단독 모델보다 높고, LR이 들어간 조합은 더 강한 단독 모델보다 낮다(`ensemble/README.md`).
-
-### Extra credit. TrafficSliver 분할 트래픽 (Closed-world 방문 정확도)
-
-| 학습 데이터 | LR | SVM | RF |
-| --- | --- | --- | --- |
-| A. 일반 트래픽만 | 0.0139 | 0.0118 | 0.0216 |
-| B. 분할 트래픽만 | **0.1668** | 0.1445 | 0.2703 |
-| C. 일반 + 분할 | 0.1397 | **0.1542** | **0.2800** |
-
-- 빈 split 제외 버전 기준. 평가는 세 모델 모두 같은 split test 3,800방문이다.
-- 일반 트래픽으로만 학습한 모델(A)은 세 모델 모두 무작위 수준이다. 분할 방어가 기존 공격 모델을 사실상 무력화한다.
-- 분할 트래픽으로 학습하면(B·C) 회복되지만 메인 실험보다 크게 낮다. 최고는 RF C 0.2800이다.
-- SVM B·C는 학습 시간 때문에 train 방문의 30%만 사용했다. 전체 방문으로 학습한 B(포함 버전)는 0.1958이다.
-- 빈 split 포함·제외의 차이는 세 모델 모두 1%p 이내다.
+| <img src="https://github.com/mirikim404.png" width="90"> | <img src="https://github.com/jasmin0202.png" width="90"> | <img src="https://github.com/arky02.png" width="90"> | <img src="https://github.com/Yangyoonseo27.png" width="90"> | <img src="https://github.com/kimyujin8575.png" width="90"> | <img src="https://github.com/angmang24.png" width="90"> |
+| :---: | :---: | :---: | :---: | :---: | :---: |
+| [김미리](https://github.com/mirikim404) | [김가영](https://github.com/jasmin0202) | [김기연](https://github.com/arky02) | [양윤서](https://github.com/Yangyoonseo27) | [김유진](https://github.com/kimyujin8575) | [김은규](https://github.com/angmang24) |
+| Model · LR, 앙상블 | Model · SVM | Model · RF | Data · 특징 | Data · 특징 | Data · 특징 |
