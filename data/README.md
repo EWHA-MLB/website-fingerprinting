@@ -8,4 +8,13 @@
 | `unmon_standard10.pkl` | unmonitored | 10,000 |
 | `unmon_standard10_3000.pkl` | unmonitored 축소판 (10,000의 일부) | 3,000 |
 
-Colab에서 실행할 때는 위 파일을 `MyDrive/MLB-Project/data/`에 둔다.
+위 파일을 이 폴더(`data/`)에 둔다. extra credit 특징은 `data/extra/`에 둔다.
+
+```
+data/
+├── mon_standard.pkl
+├── unmon_standard10.pkl
+└── extra/
+    ├── features_extra_split_trim0.csv.gz
+    └── features_extra_join_trim0.csv.gz   (선택)
+```

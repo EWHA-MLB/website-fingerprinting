@@ -25,7 +25,7 @@
 
 ```
 docs/          제안서, 특징 정의서, 실험 보고서
-data/          원본 데이터 안내 (파일은 올리지 않음)
+data/          원본 데이터 위치 (파일은 올리지 않음)
 features/      특징 추출 노트북 (데이터팀)
 splits/        모델팀 공유 학습/평가 분할, 공통 교차검증 fold
 models/        모델별 실험 노트북
@@ -36,16 +36,35 @@ results/       모델별 요약 결과 CSV
 
 ## 실행 방법
 
-모든 노트북은 Google Colab에서 Google Drive를 연결해 실행한다. Drive 안의 폴더 구조는 다음과 같다.
+### 환경
 
-```
-MyDrive/MLB-Project/
-├── data/       원본 pkl (data/README.md 참고)
-├── feature/    features_*.csv
-└── results/    split_seed42.csv, cv_folds_seed42.csv, 모델별 결과 폴더
+- Python 3.10 이상, `pip install -r requirements.txt`
+- Google Colab CPU 런타임 또는 로컬 Jupyter에서 실행한다. GPU는 필요 없다.
+- 노트북의 첫 설정 셀은 저장소 루트(`splits/` 폴더가 있는 위치)를 찾아 모든 경로를 그 기준으로 잡는다. Colab에서 GitHub의 노트북만 열었다면 저장소를 `/content/website-fingerprinting`에 내려받은 뒤 같은 방식으로 실행한다.
+
+```bash
+git clone https://github.com/EWHA-MLB/website-fingerprinting.git
+cd website-fingerprinting
+pip install -r requirements.txt
 ```
 
-실행 순서: `features/` → `models/` (모델별 필수 실험 → 추가 실험) → `ensemble/`
+### 데이터 준비
+
+| 파일 | 위치 | 저장소 포함 | 사용하는 노트북 |
+| --- | --- | --- | --- |
+| 원본 `mon_standard.pkl`, `unmon_standard10.pkl` | `data/` | X (`data/README.md`) | 특징 추출, LR 7-추가 |
+| 메인 특징 `features_*_trim{0,10,20}.csv`, `cumul100_mon_trim0.csv` | `features/기본 실험/` | O | 모든 모델 |
+| 분할 `split_seed42.csv`, `cv_folds_seed42.csv`, `extra_split_seed42.csv` | `splits/` | O | 모든 모델 |
+| extra credit 특징 `features_extra_split_trim0.csv.gz` (`features_extra_join_trim0.csv.gz`는 선택) | `data/extra/` | X | `extra_credit/`, 모델별 extra credit 노트북 |
+
+### 실행 순서
+
+1. `features/기본 실험/feature_extraction.ipynb` — 원본 pkl에서 특징 CSV 생성. 결과 CSV가 저장소에 있으므로 건너뛰어도 된다.
+2. `models/` — 모델별 필수 실험 → 추가 실험 (모델 폴더의 README 참고)
+3. `ensemble/` — 실험 6. LR·SVM·RF 노트북이 만든 OOF·test 확률 파일이 먼저 있어야 한다.
+4. `extra_credit/`, 모델별 extra credit 노트북 — `data/extra/`의 특징과 `splits/extra_split_seed42.csv`를 사용한다.
+
+결과 요약 CSV는 `results/{모델}/`에 저장된다. 큰 예측·확률 파일은 저장소에 올리지 않는다(`.gitignore`).
 
 ## 공통 실험 조건
 
