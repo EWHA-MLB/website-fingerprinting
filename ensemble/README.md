@@ -9,7 +9,8 @@
 | `MLB_SVM_probability.ipynb` | SVM 확률 파일 생성. 실험 4 설정 그대로 `SVC(probability=True)`로 학습, 공통 fold로 OOF 확률 저장 |
 | `MLB_Experiment6_Ensemble.ipynb` | RF 확률(npz) 변환, 모델 간 record_id·정답·클래스 정렬 검사, 조합별 평균, 이진 임계값 비교 |
 
-- 입력: 각 모델의 `{모델}_oof_{과제}.csv`, `{모델}_test_proba_{과제}.csv` (Drive `MLB-Project/results/`)
+- 입력: 각 모델의 `{모델}_oof_{과제}.csv`, `{모델}_test_proba_{과제}.csv` (`results/logistic_regression/`, `results/svm/`), RF 확률 npz
+- 실행 순서: `models/logistic_regression/01_lr_main.ipynb` → `MLB_SVM_probability.ipynb` → `models/random_forest/MLB_RF_Experiment3_4_5.ipynb` → `MLB_Experiment6_Ensemble.ipynb`
 - 출력: `results/ensemble/ensemble_{closed|multi|binary}.csv`, `ensemble_binary_threshold.csv`
 - 확률 파일은 커서 저장소에 올리지 않는다.
 
