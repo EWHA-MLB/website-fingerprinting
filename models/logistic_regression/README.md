@@ -70,7 +70,6 @@ Closed-world, C=100 고정, 평가 3,800방문. 방문 정확도는 한 방문�
 | 파일 | 내용 |
 | --- | --- |
 | `lr_summary.csv` | 필수 실험·추가 비교 전체 요약 |
-| `lr_cv_tables.csv` | 실험별 C 탐색 표 |
 | `lr_ablation_closed.csv` / `lr_ablation_binary.csv` | 그룹 제거 실험 |
 | `lr_grouponly.csv` | 추가 실험 1. 그룹 단독 학습 |
 | `lr_g6_resolution.csv` | 추가 실험 2. 누적 흐름 50 vs 100 지점 (Closed-world) |
