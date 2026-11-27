@@ -31,12 +31,16 @@ EC_N_JOBS=5 EC_CLOSED_FRAC=0.3 EC_RUN_BINARY=0 \
 | `EC_CLOSED_FRAC` | 0.3 | Closed B·C 학습 방문 샘플링 비율 |
 | `EC_RUN_BINARY` | 0 | 1이면 Open-world 이진도 실행 |
 | `EC_BINARY_FRAC` | 0.3 | 이진 B·C 학습 방문 샘플링 비율 |
-| `EC_GPU` | 0 | 1이면 RAPIDS `cuml.accel`로 SVC를 GPU에서 실행 (Linux + NVIDIA GPU, `pip install cuml-cu12` 등 CUDA 버전에 맞게). 결과가 CPU와 조금 다를 수 있어 `note`에 기록된다 |
+| `EC_GPU` | 0 | 1이면 RAPIDS `cuml.accel`로 SVC를 GPU에서 실행 (Linux + NVIDIA GPU, `pip install cuml-cu12`). **이진 분류만 GPU에서 돈다.** 다중 클래스(Closed)는 cuml.accel이 CPU로 되돌리고 fold 병렬도 1로 고정돼 오히려 느려지므로 Closed에는 쓰지 않는다. `note`에 기록된다 |
+| `EC_OVO_JOBS` | 0 | 2 이상이면 Closed의 다중 클래스 SVC를 클래스 쌍(one-vs-one) 4,465개의 이진 SVC로 나눠 CPU 코어 여러 개로 학습한다. 기존 방식과 모델이 같다(3% 점검에서 지표·support vector 수·확률값 일치). `EC_GPU=1`이면 무시된다 |
 | `EC_SMOKE`, `EC_SMOKE_DIR` | 0 | 1이면 방문 3%로 코드 점검, 결과는 `EC_SMOKE_DIR`에 저장 |
 
-### 진행 상황 (2026-11-26 23:20)
+### 진행 상황 (2026-11-27)
 
-- 완료: Closed 110개 A·B·C × 포함·제외, B 포함 전체 데이터 참고(`B_full100`), Closed 53개 A × 포함·제외
-- 남음: Closed 53개(g1+g6) B·C × 포함·제외, Open-world 이진(선택)
-- GPU 옵션은 아직 실제 GPU에서 시험하지 않았다. 서버에서는 먼저 `EC_SMOKE=1 EC_GPU=1`로 GPU가 쓰이는지, CPU 결과와 얼마나 다른지 확인한 뒤 본 실행한다. GPU로 본 실행하면 SVM 조건끼리 비교가 공정하도록 110개 조건도 다시 돌린다 (`ec_summary.csv`를 다른 이름으로 옮기면 처음부터 실행).
-- 주의: 53개 모델(C=2¹⁴)은 split 데이터에서 수렴이 매우 느리다. 30% 샘플링한 B 포함 하나가 93분 넘게 5-fold 보정 학습을 끝내지 못해 중단했다 (같은 조건의 110개 모델은 4.3분).
+- 모든 조건 완료: Closed 110개·53개 A·B·C × 포함·제외, `B_full100` 참고, Open-world 이진 A·B·C × 포함·제외, join 참고 평가(`svm_ec_join_reference.csv`)
+- 실행 방법 (서버, 48코어 + RTX 2000 Ada). 스크립트와 로그는 `results/svm/extra_credit/logs/`
+  - Closed 53개 B·C: `EC_OVO_JOBS=24` (CPU, `nice 19`). 조건 하나에 학습 41~54분 + 예측 26~35분, 4개 합쳐 약 5.4시간
+  - 이진: `EC_GPU=1 EC_RUN_BINARY=1` (GPU). 조건 하나에 학습 0.6~3.6분. 3% 점검에서 CPU와의 차이는 ROC-AUC 0.0001 수준
+  - Closed 110개와 53개 A는 이전 로컬 실행(CPU libsvm) 결과 그대로
+- GPU를 Closed에 쓰지 않은 이유: 53개 모델(C=2¹⁴)은 480행짜리 클래스 쌍 하나가 50만~180만 번 반복해야 수렴한다. 이 반복은 순차적이라 GPU에서 더 느리다 (쌍 하나에 CPU 0.3~1.5초, cuML GPU 4.8~12초).
+- 두 번째 실행(이진)이 노트북을 덮어써서 노트북의 Closed 53개 셀 출력은 `[skip]`으로 남아 있다. 학습 로그가 남은 판은 `results/svm/extra_credit/logs/MLB_SVM_extra_closed_run.ipynb`와 `closed_53.log`.
