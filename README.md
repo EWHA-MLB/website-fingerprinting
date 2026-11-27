@@ -55,7 +55,7 @@ pip install -r requirements.txt
 | 원본 `mon_standard.pkl`, `unmon_standard10.pkl` | `data/` | X (`data/README.md`) | 특징 추출, LR 7-추가 |
 | 메인 특징 `features_*_trim{0,10,20}.csv`, `cumul100_mon_trim0.csv` | `features/기본 실험/` | O | 모든 모델 |
 | 분할 `split_seed42.csv`, `cv_folds_seed42.csv`, `extra_split_seed42.csv` | `splits/` | O | 모든 모델 |
-| extra credit 특징 `features_extra_split_trim0.csv.gz` (`features_extra_join_trim0.csv.gz`는 선택) | `data/extra/` | X | `extra_credit/`, 모델별 extra credit 노트북 |
+| extra credit 특징 `features_extra_split_trim0.csv.gz` (`features_extra_join_trim0.csv.gz`는 선택) | `data/extra/` | O | `extra_credit/`, 모델별 extra credit 노트북 |
 
 ### 실행 순서
 

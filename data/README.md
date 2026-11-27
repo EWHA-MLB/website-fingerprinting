@@ -8,7 +8,7 @@
 | `unmon_standard10.pkl` | unmonitored | 10,000 |
 | `unmon_standard10_3000.pkl` | unmonitored 축소판 (10,000의 일부) | 3,000 |
 
-위 파일을 이 폴더(`data/`)에 둔다. extra credit 특징은 `data/extra/`에 둔다.
+위 pkl 파일을 이 폴더(`data/`)에 둔다. extra credit 특징(`data/extra/`)은 데이터팀이 추출한 결과로, 저장소에 포함되어 있다.
 
 ```
 data/
