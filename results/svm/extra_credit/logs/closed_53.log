@@ -1,0 +1,114 @@
+[IPKernelApp] WARNING | Kernel is running over TCP without encryption. All communication (including code and outputs) is sent in plain text and is susceptible to eavesdropping. Use IPC transport or launch with kernel manager-provisioned CurveZMQ keys to enable transport encryption.
+cell 2 done in 0s
+ROOT: /home2/fedit-home/website-fingerprinting
+RESULT_DIR: /home2/fedit-home/website-fingerprinting/results/svm/extra_credit
+USE_GPU=False, OVO_JOBS=24, N_JOBS=5, CLOSED_TRAIN_FRAC=0.3, RUN_BINARY=False, BINARY_TRAIN_FRAC=0.3, SMOKE=False
+
+cell 3 done in 1s
+one-vs-one 병렬 24 jobs, N_JOBS=1
+
+sklearn 1.9.1
+
+cell 5 done in 3s
+status         empty      ok     All
+dataset split                       
+mon     test    1658   17342   19000
+        train   6304   69696   76000
+unmon   test    1692   16693   18385
+        train   8261   68354   76615
+All            17915  172085  190000
+
+방문 수: {'test': 7477, 'train': 30523}
+
+cell 7 done in 0s
+메인 test인데 extra train인 방문: 107 (extra test 평가에는 영향 없음)
+split     test  train
+dataset              
+mon       3800  15200
+unmon10k  2000   8000
+
+e `newframe = frame.copy()`
+  main["split"] = main.record_id.map(dict(zip(msp.record_id, msp.split)))
+/tmp/ipykernel_3437677/3385035882.py:15: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  main["source_group_id"] = gid.astype(str)
+/tmp/ipykernel_3437677/3385035882.py:25: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  main["fold"] = main.fold_ex.astype(int)
+/tmp/ipykernel_3437677/3385035882.py:26: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  main["variant"], main["status"], main["is_empty"] = "main", "ok", False
+/tmp/ipykernel_3437677/3385035882.py:26: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  main["variant"], main["status"], main["is_empty"] = "main", "ok", False
+/tmp/ipykernel_3437677/3385035882.py:26: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  main["variant"], main["status"], main["is_empty"] = "main", "ok", False
+
+cell 8 done in 0s
+cell 10 done in 0s
+cell 11 done in 0s
+cell 12 done in 0s
+cell 14 done in 0s
+[skip] closed B 110 ('include',): 결과 있음
+조건 B(포함) 소요: 0.0 min
+
+cell 15 done in 18736s
+[skip] closed A 110 ('include', 'exclude'): 결과 있음
+[skip] closed B 110 ('include', 'exclude'): 결과 있음
+[skip] closed C 110 ('include', 'exclude'): 결과 있음
+[skip] closed A g1g6_53 ('include', 'exclude'): 결과 있음
+[fit] closed B g1g6_53 train=include: 22,800 rows / 4,560 visits ...
+
+      fit 47.3 min, support vectors 22,789
+
+  → include: visit_acc 0.0479 | visit_F1 0.0197 | row_acc 0.0292 | row_acc_empty_wrong 0.0245 | test rows 19,000
+
+[fit] closed B g1g6_53 train=exclude: 20,908 rows / 4,560 visits ...
+
+      fit 41.1 min, support vectors 20,903
+
+  → exclude: visit_acc 0.0437 | visit_F1 0.0181 | row_acc 0.0244 | row_acc_empty_wrong 0.0223 | test rows 17,342
+
+[fit] closed C g1g6_53 train=include: 27,360 rows / 4,560 visits ...
+
+      fit 54.5 min, support vectors 26,890
+
+  → include: visit_acc 0.0508 | visit_F1 0.0248 | row_acc 0.0305 | row_acc_empty_wrong 0.0258 | test rows 19,000
+
+[fit] closed C g1g6_53 train=exclude: 25,437 rows / 4,560 visits ...
+
+      fit 47.7 min, support vectors 24,960
+
+  → exclude: visit_acc 0.0545 | visit_F1 0.0278 | row_acc 0.0290 | row_acc_empty_wrong 0.0265 | test rows 17,342
+
+cell 17 done in 0s
+RUN_BINARY=False → 이진 과제 건너뜀
+
+cell 19 done in 797s
+/tmp/ipykernel_3437677/1977179892.py:5: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  jn["is_empty"] = jn.status.eq("empty")
+
+model   task condition      eval features  n_test_rows    acc  macro_f1
+  SVM closed         A join_test      110         3800 0.1374    0.1572
+  SVM closed         A join_test  g1g6_53         3800 0.7379    0.7216
+
+cell 21 done in 0s
+ 0.0197   0.0292               0.0245   2840.0
+closed         B exclude  g1g6_53         20908        17342           3800     0.0437          0.0181   0.0244               0.0223   2466.2
+closed         C include  g1g6_53         27360        19000           3800     0.0508          0.0248   0.0305               0.0258   3268.1
+closed         C exclude  g1g6_53         25437        17342           3800     0.0545          0.0278   0.0290               0.0265   2861.9
+
+  task condition version features  log2C  log2gamma  n_support  n_train_visits  train_frac  predict_sec
+closed B_full100 include      110      7         -6      75684           15200         NaN        971.2
+closed         A include      110      7         -6      12245           15200         NaN        179.9
+closed         A exclude      110      7         -6      12245           15200         NaN        160.8
+closed         B include      110      7         -6      22763            4560         0.3        202.5
+closed         B exclude      110      7         -6      20874            4560         0.3        169.7
+closed         C include      110      7         -6      26960            4560         0.3        241.6
+closed         C exclude      110      7         -6      25036            4560         0.3        173.6
+closed         A include  g1g6_53     14         -2      10359           15200         NaN         82.1
+closed         A exclude  g1g6_53     14         -2      10359           15200         NaN        118.0
+closed         B include  g1g6_53     14         -2      22789            4560         0.3       1854.8
+closed         B exclude  g1g6_53     14         -2      20903            4560         0.3       1546.3
+closed         C include  g1g6_53     14         -2      26890            4560         0.3       2126.7
+closed         C exclude  g1g6_53     14         -2      24960            4560         0.3       1766.1
+
+메인 Closed-world test 정확도 (비교 기준): SVM 110개 0.8521 / SVM g1+g6 0.8650
+
+ALL DONE
